@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+    name: server-Deployment
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            component: server
+    template:
+        metadata:
+            labels:
+                component: server
+        spec:
+            containers:
+                - name: server
+                  image: stephendrider/multi-server
+                  ports:
+                    - containerPort: 5000
+--- <--- Com 3 traços vc pode unificar os objetos relacionados 
+a um serviço. Recomendado fazer em arquivos separados para facilitar a manutenção
+mesmo tendo varios arquivos
+    apiVersion: v1
+    kind: Service
+    metadata: 
+        name: server-cluster-ip-service
+    spec:
+        type: ClusterIP
+        selector:
+            component: server
+        ports:
+            - port: 5000
+              targetPort: 5000

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment # novo tipo de objeto
+metadata:
+    name: client-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            component: web # key <-> value que ira buscar qual pod template utilizar
+    template:
+        metadata:
+            labels:
+                component: web # label para ser localizado pela tag selector acima
+        spec: # pod template, praticamente o mesmo que contem no arquivo de um pod comum
+            containers:
+                - name: client
+                  image: stephengrider/multi-client
+                  ports:
+                    - containerPort: 3000
+
+
+# Outro tipo de objeto é o Deployment que seria um set de Pods na qual pode-se editar
+# mais propriedades do que um Pod e é mais utilizado em ambiente de produção.
